@@ -5,5 +5,6 @@ Those sample source codes show how to compute a WebRTC Authorization parameter t
 Available versions:
 - node.js
 - php
+- js
 
 The WebRTC Authorization parameter must be computed on the application server.
