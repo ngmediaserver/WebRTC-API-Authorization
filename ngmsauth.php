@@ -12,7 +12,7 @@ function hmacSha1($data, $ngmsPassword){
   return base64_encode(pack('H*', $hmac)); 
 }
 
-// With this sample, the client page must performs a GET on auth.php in order to get the authorization parameter
+// With this sample, the client page must performs a GET on ngmsauth.php in order to get the authorization parameter
 // input (query string):
 // - to: the requested called URI (/number)
 // output (JSON):
