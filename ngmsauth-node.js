@@ -49,6 +49,7 @@ async function main() {
   // output (JSON):
   // - authorization: the authorization parameter to pass in MakeCall or Register.
   // - from (optional): the from parameter that was used (if any) ; see below
+  server.route({
     method: 'GET',
     path: '/api/computeAuthorization',
     handler: async (request, reply) => {
