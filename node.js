@@ -60,8 +60,7 @@ async function main() {
 
       let paramTo       = request.query.to  ;
 //    let paramFrom     = request.query.from    ;
-      let paramFrom     = undefined; // Here, the from parameter is typically empty or set according to the user logged in this session
-      if (paramTo !== undefined) {
+      let paramFrom     = undefined; // Here, the from parameter is typically left empty or it is set here to reflect the user logged in this session      if (paramTo !== undefined) {
         let data = '\n\n' + paramTo + '\n\n' + ((paramFrom === undefined) ? "" : paramFrom) + '\n\n\n\n';
         const validityPeriod = 10;  // In seconds
         let expiry = (Math.floor(new Date() / 1000) + validityPeriod); // Number of seconds since January 1, 1970
