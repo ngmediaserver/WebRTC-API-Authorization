@@ -8,8 +8,8 @@
 //==========================================================
 
 // The following settings must match those of your NG Media Server
-const ngmsUsername = 'your-ngms-administrator-username';
-const ngmsPassword = 'your-ngms-administrator-password';
+// const ngmsUsername = 'your-ngms-number-username';
+// const ngmsPassword = 'your-ngms-number-password';
 
 window.crypto = window.crypto || window.msCrypto; // IE11
 if (window.crypto){
@@ -18,7 +18,15 @@ if (window.crypto){
   }
 }
 
-async function authCompute(params) {
+// With this sample, the authCompute function computes the authorization parameter
+// input:
+// - params.from : the requested caller URI (/number) = the number
+// - params.to   : the requested called URI (/number)
+// - ngmsUsername: the username associated with the number
+// - ngmsPassword: the password associated with the number
+// output:
+// - authorization: the authorization parameter to pass in MakeCall or Register.
+async function authCompute(params, ngmsUsername, ngmsPassword) {
 
   // This function generates the authorization token
   async function hmacSha1(data, password)
