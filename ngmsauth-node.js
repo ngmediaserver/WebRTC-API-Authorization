@@ -1,6 +1,6 @@
 //==========================================================
 //  NG Media Server - WebRTC Authorization
-//  Copyright (c) NG Media 2000-2020
+//  Copyright (c) NG Media 2000-2021
 //----------------------------------------------------------
 // This sample Node.js code shows how to compute a 
 //   WebRTC Authorization parameter to authenticate calls  
