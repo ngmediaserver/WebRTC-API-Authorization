@@ -10,72 +10,82 @@
 const crypto = require('crypto');
 const hapi   = require('hapi'  );
 
-// NG Media Server Infos
-const ngmsUsername = 'NGMediaServerAdministratorUsername';
-const ngmsPassword = 'NGMediaServerAdministratorPassword';
+// The following settings must match those of your NG Media Server
+const ngmsUsername = 'your-ngms-administrator-username';
+const ngmsPassword = 'your-ngms-administrator-password';
 
-// This sample Node.js server is listening on port 3000
+// This sample is listening on port 3000
 const server = new hapi.Server({
-	port: 3000,
+  port: 3000,
 });
 
 async function main() {
-	// Node.js server is starting
-	await server.start();
+  // Start the server
+  await server.start();
 
-	// This function is generating the WebRTC Authorization token required by NG Media Server
-	async function hmacSha1(password, data) {
-		return new Promise((resolve, reject) => {
-			const hmac = crypto.createHmac('sha1', password);
+  // This function generates the authorization token
+  async function hmacSha1(data, password) {
+    return new Promise((resolve, reject) => {
+      const hmac = crypto.createHmac('sha1', password);
 
-			hmac.on('readable', () => {
-				let hash = hmac.read();
-				if (hash) {
-					resolve(hash.toString('base64'));
-					return;
-				} else {
-					return 'hmac error';
-				}
-			});
+      hmac.on('readable', () => {
+        let hash = hmac.read();
+        if (hash) {
+          resolve(hash.toString('base64'));
+          return;
+        }else{
+          return 'hmac error';
+        }
+      });
 
-			hmac.write(data);
-			hmac.end();
-		});
-	}
+      hmac.write(data);
+      hmac.end();
+    });
+  }
 
-	// Define a GET /rtc_authorization service that generates the WebRTC Authorization token
-	// - Input : to (mandatory), from (optional)
-	// - Output: authorization, 
-	server.route({
-		method: 'GET',
-		path: '/rtc_authorization',
-		handler: async (request, reply) => {
+  server.route({
+    // With this sample, the client page must performs a GET on /api/computeAuthorization in order to get the authorization parameter
+    // input:
+    // - to: the requested called URI (/number)
+    // - from (optional): an optional requested caller URI (/number)
+    // output:
+    // - authorization: the authorization parameter to pass in MakeCall or Register.
+    // - from (optional): the Caller URI (/number) that should be used. 
+    //   A returned from parameter is needed only when this information is not already known by the client page.
+    //   For example, the user may have started a session with the identifier "johnsmith@localdomain.com", but when 
+    //   making a call, the associated Caller URI (/number) 3005 should be provided to NG Media Server for that user.
+    method: 'GET',
+    path: '/api/computeAuthorization',
+    handler: async (request, reply) => {
 		
-			var time = new Date().getTime();
-			var utcDateNow = new Date(time);
-			if (request.query.to !== undefined) {
-				let data = '\n\n' + request.query.to + '\n\n' + request.query.from + '\n\n\n\n';
-				const validityPeriod = 10;	// Expressed as seconds
-				let expiry = (Math.floor(new Date() / 1000) + (validityPeriod * 1000)); // Expiry expressed as the number of milliseconds since January 1, 1970
-				let tmpUsername = expiry + ':' + ngmsUsername;
+      // *** Here your code MUST verify that the client page requesting the authorization token is allowed. ***
+      // *** Typically you MAY check that the requests is associated with an active user session. ***
+      // *** An authorization parameter MUST be delivered only if all input parameters are allowed. ***
+      // The authorization parameter signs the input parameters (and the optional output parameter 'from')
 
-				const authorizationToken = await hmacSha1(ngmsPassword, data + tmpUsername) + ':' + tmpUsername;
-				return {
-					authorization: authorizationToken,
-				//	from: request.query.from,
-				}
-			} else {			
-				const err = {
-					cause: 1,
-					display: "Unallocated (unassigned) number",
-					type: "release",
-				};
+      if (request.query.to !== undefined) {
+        let data = '\n\n' + request.query.to + '\n\n' + request.query.from + '\n\n\n\n';
+        const validityPeriod = 10;  // In seconds
+        let expiry = (Math.floor(new Date() / 1000) + validityPeriod); // Number of seconds since January 1, 1970
+        let tmpUsername = expiry + ':' + ngmsUsername;
+
+        const authorization = await hmacSha1(data + tmpUsername, ngmsPassword) + ':' + tmpUsername;
+        return {
+          authorization: authorization,
+//        from: request.query.from,
+        }
+      }else{			
+        const err = {
+          cause: 1,
+          display: "Unallocated (unassigned) number",
+          type: "release",
+        };
 			
-				return err;			
-			}
+        return err;			
+      }
 
-		},
-	});
+    },
+  });
 }
 
 main();
