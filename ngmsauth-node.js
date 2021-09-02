@@ -72,12 +72,7 @@ async function main() {
         const authorization = await hmacSha1(data + tmpUsername, ngmsPassword) + ':' + tmpUsername;
         return { authorization: authorization, from: paramFrom, }
       }else{			
-        const err = {
-          cause: 1,
-          display: "Unallocated (unassigned) number",
-          type: "release",
-        };
-			
+        const err = { cause: 1, display: "Unallocated (unassigned) number", type: "release", };
         return err;			
       }
 
