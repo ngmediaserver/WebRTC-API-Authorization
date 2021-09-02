@@ -11,7 +11,7 @@ function hmacSha1( $ngmsPassword ,  $data ){
 }
 
 $data = "\n\n".$callTo."\n\n\n\n\n\n";
-$expiry = floor(microtime(true) + 10);
+$expiry = (floor(microtime(true)) + 10);
 $tmpUsername = $expiry . ':' . $ngmsUsername;
 
 $authorization = hmacSha1($ngmsPassword ,  $data  .  $tmpUsername )  .  ':'  .  $tmpUsername ;
