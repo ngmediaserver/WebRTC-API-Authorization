@@ -15,9 +15,9 @@ function hmacSha1($data, $ngmsPassword){
 // With this sample, the client page must performs a GET on auth.php in order to get the authorization parameter
 // input (query string):
 // - to: the requested called URI (/number)
-// - from (optional): an optional requested caller URI (/number)
 // output (JSON):
 // - authorization: the authorization parameter to pass in MakeCall or Register.
+// - from (optional): the from parameter that was used (if any) ; see below
 $data = '\n\n' . $_GET["to"] . '\n\n' . $_GET["from"] . '\n\n\n\n';
 $validityPeriod = 10;  // In seconds
 $expiry = (floor(microtime(true)) + $validityPeriod); // Number of seconds since January 1, 1970
