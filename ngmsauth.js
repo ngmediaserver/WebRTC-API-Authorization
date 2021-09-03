@@ -58,7 +58,7 @@ async function authCompute(params, ngmsUsername, ngmsPassword) {
     let tmpUsername = expiry + ':' + ngmsUsername;
 
     const authorization = await hmacSha1(data + tmpUsername, ngmsPassword) + ':' + tmpUsername;
-    return { authorization: authorization, from: paramFrom, }
+    return { authorization: authorization, }
   }else{			
     const err = { cause: 1, display: "Unallocated (unassigned) number", type: "release", };
     return err;			
