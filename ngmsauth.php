@@ -21,7 +21,7 @@ function hmacSha1($data, $ngmsPassword){
 $toParam = $_GET["to"];
 $fromParam = $_GET["from"];
 $validityPeriodParam = $_GET["validity"];  // In seconds
-//!\\ BE CAREFUL HERE: you have to use " and not ' or your /n encoding will not be good //!\\
+//!\\ BE CAREFUL HERE: you have to use " and not ' or your \n encoding will not be good //!\\
 $data = "\n\n$toParam\n\n$fromParam\n\n\n\n";
 
 $expiry = (floor(microtime(true)) + $validityPeriodParam); // Number of seconds since January 1, 1970
