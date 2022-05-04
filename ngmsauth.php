@@ -18,7 +18,10 @@ function hmacSha1($data, $ngmsPassword){
 // output (JSON):
 // - authorization: the authorization parameter to pass in MakeCall or Register.
 // - from (optional): the from parameter that was used (if any) ; see below
-$data = "\n\n$_GET["to"]\n\n$_GET["from"]\n\n\n\n";
+$toParam = $_GET["to"];
+$fromParam = $_GET["from"];
+//!\\ BE CAREFUL HERE: you have to use " and not ' or your /n encoding will not be good //!\\
+$data = "\n\n$toParam\n\n$fromParam\n\n\n\n";
 $validityPeriod = 10;  // In seconds
 $expiry = (floor(microtime(true)) + $validityPeriod); // Number of seconds since January 1, 1970
 $tmpUsername = $expiry . ':' . $ngmsUsername;
