@@ -7,4 +7,4 @@ Available versions:
 - JavaScript
 - PHP
 
-Reference documentation (Algorithm, REST API) is available in article [WebRTC-API-Authorization](https://github.com/ngmediaserver/NG-Media-Server/wiki/WebRTC-API-Authorization).
+Reference documentation (Algorithm, Online test, API, ...) is available in article [WebRTC-API-Authorization](https://github.com/ngmediaserver/NG-Media-Server/wiki/WebRTC-API-Authorization).
