@@ -59,11 +59,12 @@ async function main() {
       // *** An authorization parameter MUST be delivered only if all input parameters are allowed. ***
       // The authorization parameter signs the input parameters
 
-      let paramTo       = request.query.to  ;
+      let paramTo       = request.query.to      ;
 //    let paramFrom     = request.query.from    ;
-      let paramFrom     = undefined; // Here, the from parameter is typically left empty or it is set here to reflect the user logged in this session      if (paramTo !== undefined) {
+      let paramFrom     = undefined; // Here, the from parameter is typically left empty or it is set here to reflect the user logged in this session
       let paramFromName = request.query.fromName;
       if (paramTo !== undefined) {
+        // Warning: in JS an undefined value should be explicitly replaced by "" else it will be replaced by "undefined"
         let data = '\n\n' + paramTo + '\n\n' + ((paramFrom === undefined) ? "" : paramFrom) + '\n\n\n\n';
         const validityPeriod = 10;  // In seconds
         let expiry = (Math.floor(new Date() / 1000) + validityPeriod); // Number of seconds since January 1, 1970
