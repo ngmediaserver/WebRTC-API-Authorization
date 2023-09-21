@@ -7,4 +7,3 @@ Available versions:
 - JavaScript
 - PHP
 
-The WebRTC Authorization parameter must be computed on the application server.
